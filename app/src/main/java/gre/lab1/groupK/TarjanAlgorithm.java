@@ -4,13 +4,11 @@ import gre.lab1.graph.DirectedGraph;
 import gre.lab1.graph.GraphScc;
 import gre.lab1.graph.SccAlgorithm;
 import java.util.Stack;
-import java.util.Arrays;
-import java.util.List;
 
 public final class TarjanAlgorithm implements SccAlgorithm {
-    private int n; // counter for dfsnum
-    private int k; // counter for components numerotation
-    private Stack<Integer> p; // stack to store visited but unclassified vertices
+    private int dfsCounter; // counter for dfsnum
+    private int sccCounter; // counter for components numerotation
+    private Stack<Integer> verticesStack; // stack to store visited but unclassified vertices
     int VERTICES_NB;
     int[] dfsnum;
     int[] scc;
@@ -25,9 +23,9 @@ public final class TarjanAlgorithm implements SccAlgorithm {
         scc = new int[VERTICES_NB];
         low = new int[VERTICES_NB];
 
-        n = 0;
-        k = 0;
-        p = new Stack<>();
+        dfsCounter = 0;
+        sccCounter = 0;
+        verticesStack = new Stack<>();
 
         for (int i = 0; i < VERTICES_NB; i++) {
             if (scc[i] == 0) {
@@ -35,39 +33,39 @@ public final class TarjanAlgorithm implements SccAlgorithm {
             }
         }
 
-        return new GraphScc(graph, k, scc);
+        return new GraphScc(graph, sccCounter, scc);
     }
 
-    // Recursive algorithm to find scc from a given vertice indexed at u
-    private void scc(int u) {
-        n++;
-        dfsnum[u] = n;
-        low[u] = n;
-        p.push(u);
+    // Recursive algorithm to find scc from a given vertex indexed at vertexIndex
+    private void scc(int vertexIndex) {
+        dfsCounter++;
+        dfsnum[vertexIndex] = dfsCounter;
+        low[vertexIndex] = dfsCounter;
+        verticesStack.push(vertexIndex);
 
-        for (int v : graph.getSuccessorList(u)) {
+        for (int successor : graph.getSuccessorList(vertexIndex)) {
 
-            // If v has not been visited, manage it first
-            if (dfsnum[v] == 0)
-                scc(v);
+            // If successor has not been visited, manage it first
+            if (dfsnum[successor] == 0)
+                scc(successor);
 
             // If the scc has not been defined
-            if (scc[v] == 0) {
-                low[u] = Math.min(low[u], low[v]);
+            if (scc[successor] == 0) {
+                low[vertexIndex] = Math.min(low[vertexIndex], low[successor]);
             }
         }
 
         // If we have found a new scc
-        if (low[u] == dfsnum[u]) {
-            k++;
-            int w = u;
+        if (low[vertexIndex] == dfsnum[vertexIndex]) {
+            sccCounter++;
+            int vertexToClassify;
 
             // Pop all vertices from the stack until we considered all vertices in the
             // k scc, they are all placed at the top of the stack p
             do {
-                w = p.pop();
-                scc[w] = k;
-            } while (w != u);
+                vertexToClassify = verticesStack.pop();
+                scc[vertexToClassify] = sccCounter;
+            } while (vertexToClassify != vertexIndex);
         }
     }
 }
