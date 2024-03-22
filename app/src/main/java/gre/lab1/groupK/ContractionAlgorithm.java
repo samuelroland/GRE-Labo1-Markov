@@ -7,6 +7,7 @@ import gre.lab1.graph.GraphScc;
 import gre.lab1.graph.SccAlgorithm;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation> {
@@ -25,6 +26,10 @@ public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation>
         DirectedGraph condensationGraph = new DirectedGraph(graphScc.count());
 
         int[] list = new int[graphScc.count()];
+        List<List<Integer>> mapping = new ArrayList<>(scc.length);
+        for (int i = 0; i < scc.length; i++) {
+            mapping.add(new ArrayList<>());
+        }
         // Parcours du graphe d'origine pour ajouter les arêtes dans le graphe condensé
         for (int vertex = 0; vertex < scc.length; vertex++) {
             for (int successor : graph.getSuccessorList(vertex)) {
@@ -35,14 +40,6 @@ public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation>
                     list[scc[successor]] = scc[vertex];
                 }
             }
-        }
-
-        // Création du mapping entre les sommets du graphe d'origine et les composantes fortement connexes
-        List<List<Integer>> mapping = new ArrayList<>();
-        for (int i = 0; i < graphScc.count(); i++) {
-            mapping.add(new ArrayList<>());
-        }
-        for (int vertex = 0; vertex < scc.length; vertex++) {
             mapping.get(scc[vertex] - 1).add(vertex);
         }
         return new GraphCondensation(graph, condensationGraph, mapping);
