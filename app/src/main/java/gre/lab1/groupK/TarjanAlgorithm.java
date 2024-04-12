@@ -5,6 +5,9 @@ import gre.lab1.graph.GraphScc;
 import gre.lab1.graph.SccAlgorithm;
 import java.util.Stack;
 
+/**
+ * Class that implements the Tarjan's SCC algorithm
+ */
 public final class TarjanAlgorithm implements SccAlgorithm {
     private int dfsCounter; // counter for dfsnum
     private int sccCounter; // counter for components numerotation
@@ -15,6 +18,11 @@ public final class TarjanAlgorithm implements SccAlgorithm {
     int[] low;
     private DirectedGraph graph;
 
+    /**
+     * Recursive algorithm to find scc from a given vertex indexed at vertexIndex
+     * @param graph The graph whose SCC we want to find
+     * @return A graph with its SCC
+     */
     @Override
     public GraphScc compute(DirectedGraph graph) {
         this.graph = graph;
@@ -36,7 +44,10 @@ public final class TarjanAlgorithm implements SccAlgorithm {
         return new GraphScc(graph, sccCounter, scc);
     }
 
-    // Recursive algorithm to find scc from a given vertex indexed at vertexIndex
+    /**
+     * Recursive function for Tarjan's SCC algorithm, takes
+     * @param vertexIndex Index of the vertex that is wanted to analyze
+     */
     private void scc(int vertexIndex) {
         dfsCounter++;
         dfsnum[vertexIndex] = dfsCounter;

@@ -10,14 +10,26 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Algorithm that contracts a graph using its SCC
+ */
 public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation> {
 
     private SccAlgorithm sccAlgo;
 
+    /**
+     * Create a ContractionAlgorithm with a specified SCC algorithm
+     * @param sccAlgo The algorithm to find the SCC used to contract the graph
+     */
     public ContractionAlgorithm(SccAlgorithm sccAlgo) {
         this.sccAlgo = sccAlgo;
     }
 
+    /**
+     * Condenses a graph
+     * @param graph The directed graph.
+     * @return Then condensation of the graph
+     */
     @Override
     public GraphCondensation compute(DirectedGraph graph) {
         GraphScc graphScc = sccAlgo.compute(graph);

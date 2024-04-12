@@ -6,7 +6,15 @@ import java.util.List;
 
 import gre.lab1.graph.*;
 
+/**
+ * Takes some files
+ */
 public class Main {
+    /**
+     * Takes some files, each one representing a graph, print their SCC with their characteristics.
+     * @param args No arg is needed
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         System.out.println("Labo 1 - GRE");
         final String[] FILES = new String[] { "data/chaine1.txt", "data/chaine2.txt" };
