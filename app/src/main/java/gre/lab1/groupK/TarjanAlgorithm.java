@@ -45,7 +45,7 @@ public final class TarjanAlgorithm implements SccAlgorithm {
     }
 
     /**
-     * Recursive function for Tarjan's SCC algorithm, takes
+     * Recursive function for Tarjan's SCC algorithm, processes the successors of a vertex
      * @param vertexIndex Index of the vertex that is wanted to analyze
      */
     private void scc(int vertexIndex) {

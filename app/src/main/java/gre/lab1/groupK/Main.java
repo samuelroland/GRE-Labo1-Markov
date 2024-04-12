@@ -7,7 +7,7 @@ import java.util.List;
 import gre.lab1.graph.*;
 
 /**
- * Takes some files
+ * Makes the lab
  */
 public class Main {
     /**

@@ -42,11 +42,11 @@ public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation>
         for (int i = 0; i < scc.length; i++) {
             mapping.add(new ArrayList<>());
         }
-        // Parcours du graphe d'origine pour ajouter les arêtes dans le graphe condensé
+        // Processes the original graph to add edges in the condensation
         for (int vertex = 0; vertex < scc.length; vertex++) {
             for (int successor : graph.getSuccessorList(vertex)) {
-                // si pour chaque paire de sommet dans le graphe d'origine, u et v appartiennent à des composantes fortement connexes différentes,
-                // alors on ajoute une arête entre les composantes fortement connexes de u et v dans le graphe condensé
+                // Adds an edge between two SCC in the condensation if, for each edge of the original graph,
+                // u and v belong to different SCC and these are not connected yet
                 if (scc[vertex] != scc[successor] && list[scc[successor]] != scc[vertex]) {
                     condensationGraph.addEdge(scc[vertex] - 1, scc[successor] - 1);
                     list[scc[successor]] = scc[vertex];
