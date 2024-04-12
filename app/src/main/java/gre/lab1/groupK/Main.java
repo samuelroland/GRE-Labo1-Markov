@@ -1,12 +1,12 @@
+/*
+ * Authors: Samuel Roland, Julien Mühlemann, Simon Menicot
+ */
 package gre.lab1.groupK;
 
 import java.io.IOException;
 
 import gre.lab1.graph.*;
 
-/**
- * Makes the lab
- */
 public class Main {
     /**
      * Takes some files, each one representing a graph, print their SCC with their characteristics.
@@ -16,7 +16,9 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         System.out.println("Labo 1 - GRE");
+
         final String[] FILES = new String[] { "data/chaine1.txt", "data/chaine2.txt" };
+
         for (var file : FILES) {
             System.out.println("\n\n>> Calculating the SCC of the graph in " + file + ":");
             // Read the given graph file, parse it and return a DirectedGraph structure
@@ -37,11 +39,8 @@ public class Main {
                     System.out.println("Successors list: " + graphCond.condensation().getSuccessorList(i));
                 }
             }
-        }
-        // et UNIQUEMENT ceux-ci ;
-        // - Documentation soignée comprenant :
-        // - la javadoc, avec auteurs et description des implémentations ;
-        // - des commentaires sur les différentes parties de vos algorithmes.
 
+            System.out.println("mapping: " + graphCond.mapping());
+        }
     }
 }

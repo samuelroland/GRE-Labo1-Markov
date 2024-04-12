@@ -7,7 +7,7 @@ import gre.lab1.graph.GraphScc;
 import gre.lab1.graph.SccAlgorithm;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,6 +19,7 @@ public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation>
 
     /**
      * Create a ContractionAlgorithm with a specified SCC algorithm
+     * 
      * @param sccAlgo The algorithm to find the SCC used to contract the graph
      */
     public ContractionAlgorithm(SccAlgorithm sccAlgo) {
@@ -26,33 +27,40 @@ public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation>
     }
 
     /**
-     * Condenses a graph
+     * Condense a graph
+     * 
      * @param graph The directed graph.
-     * @return Then condensation of the graph
+     * @return The condensation of the graph
      */
     @Override
     public GraphCondensation compute(DirectedGraph graph) {
         GraphScc graphScc = sccAlgo.compute(graph);
-        int[] scc = graphScc.components();
+        int[] scc = graphScc.components(); // array of scc numbers for each vertex
 
         DirectedGraph condensationGraph = new DirectedGraph(graphScc.count());
 
-        int[] list = new int[graphScc.count()];
-        List<List<Integer>> mapping = new ArrayList<>(scc.length);
-        for (int i = 0; i < scc.length; i++) {
+        boolean[][] condSCCAdjMatrix = new boolean[graphScc.count()][graphScc.count()]; // adjacence matrix of condensation graph
+
+        // Allocate final ajdacence list of condensation graph
+        List<List<Integer>> mapping = new ArrayList<>(graphScc.count());
+        for (int i = 0; i < graphScc.count(); i++) {
             mapping.add(new ArrayList<>());
         }
-        // Processes the original graph to add edges in the condensation
-        for (int vertex = 0; vertex < scc.length; vertex++) {
-            for (int successor : graph.getSuccessorList(vertex)) {
-                // Adds an edge between two SCC in the condensation if, for each edge of the original graph,
+
+        // Process the original graph to add edges in the condensation
+        for (int originalVertexIndex = 0; originalVertexIndex < scc.length; originalVertexIndex++) {
+            for (int successor : graph.getSuccessorList(originalVertexIndex)) {
                 // u and v belong to different SCC and these are not connected yet
-                if (scc[vertex] != scc[successor] && list[scc[successor]] != scc[vertex]) {
-                    condensationGraph.addEdge(scc[vertex] - 1, scc[successor] - 1);
-                    list[scc[successor]] = scc[vertex];
+                // Adds an edge between two SCC in the condensation if, for each edge of the original graph,
+                // If the 2 vertices are on different scc and the
+                if (scc[originalVertexIndex] != scc[successor]
+                        && condSCCAdjMatrix[scc[originalVertexIndex] - 1][scc[successor] - 1] == false) {
+                    condensationGraph.addEdge(scc[originalVertexIndex] - 1, scc[successor] - 1);
+
+                    condSCCAdjMatrix[scc[originalVertexIndex] - 1][scc[successor] - 1] = true;
                 }
             }
-            mapping.get(scc[vertex] - 1).add(vertex);
+            mapping.get(scc[originalVertexIndex] - 1).add(originalVertexIndex);
         }
         return new GraphCondensation(graph, condensationGraph, mapping);
 

@@ -6,21 +6,22 @@ import gre.lab1.graph.SccAlgorithm;
 import java.util.Stack;
 
 /**
- * Class that implements the Tarjan's SCC algorithm
+ * Implement the Tarjan's SCC algorithm
  */
 public final class TarjanAlgorithm implements SccAlgorithm {
-    private int dfsCounter; // counter for dfsnum
-    private int sccCounter; // counter for components numerotation
+    int[] dfsnum; // discovery's number during the DFS, for each vertex (values from 0 to n-1)
+    private int dfsCounter; // used to count already found vertices (from 0 to n-1), used in dfsnum
+    private int sccCounter; // counter for scc numbering
     private Stack<Integer> verticesStack; // stack to store visited but unclassified vertices
     int VERTICES_NB;
-    int[] dfsnum;
-    int[] scc;
-    int[] low;
-    private DirectedGraph graph;
+    int[] scc; // array of scc numbers for each vertex
+    int[] low; // array of low mark for each vertex
+    private DirectedGraph graph; // parsed graph
 
     /**
-     * Recursive algorithm to find scc from a given vertex indexed at vertexIndex
-     * @param graph The graph whose SCC we want to find
+     * Apply the Tarjan algorithm
+     * 
+     * @param graph The graph on which to look for the scc
      * @return A graph with its SCC
      */
     @Override
@@ -41,12 +42,14 @@ public final class TarjanAlgorithm implements SccAlgorithm {
             }
         }
 
+        System.out.println("sccCounter" + sccCounter);
         return new GraphScc(graph, sccCounter, scc);
     }
 
     /**
-     * Recursive function for Tarjan's SCC algorithm, processes the successors of a vertex
-     * @param vertexIndex Index of the vertex that is wanted to analyze
+     * Recursive function for Tarjan's SCC algorithm, process the successors of a vertex given its index
+     * 
+     * @param vertexIndex Index of the vertex
      */
     private void scc(int vertexIndex) {
         dfsCounter++;
@@ -72,7 +75,7 @@ public final class TarjanAlgorithm implements SccAlgorithm {
             int vertexToClassify;
 
             // Pop all vertices from the stack until we considered all vertices in the
-            // k scc, they are all placed at the top of the stack p
+            // scc of number sccCounter, they are all placed at the top of the stack verticesStack
             do {
                 vertexToClassify = verticesStack.pop();
                 scc[vertexToClassify] = sccCounter;
