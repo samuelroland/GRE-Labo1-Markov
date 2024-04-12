@@ -33,7 +33,7 @@ public final class TarjanAlgorithm implements SccAlgorithm {
         low = new int[VERTICES_NB];
 
         dfsCounter = 0;
-        sccCounter = 0;
+        sccCounter = 0; //values are applied from 0 (and displayed starting at 1)
         verticesStack = new Stack<>();
 
         for (int i = 0; i < VERTICES_NB; i++) {
@@ -71,15 +71,15 @@ public final class TarjanAlgorithm implements SccAlgorithm {
 
         // If we have found a new scc
         if (low[vertexIndex] == dfsnum[vertexIndex]) {
-            sccCounter++;
             int vertexToClassify;
-
+            
             // Pop all vertices from the stack until we considered all vertices in the
             // scc of number sccCounter, they are all placed at the top of the stack verticesStack
             do {
                 vertexToClassify = verticesStack.pop();
                 scc[vertexToClassify] = sccCounter;
             } while (vertexToClassify != vertexIndex);
+            sccCounter++;
         }
     }
 }
