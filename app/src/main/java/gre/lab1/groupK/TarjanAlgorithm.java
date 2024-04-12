@@ -6,7 +6,7 @@ import gre.lab1.graph.SccAlgorithm;
 import java.util.Stack;
 
 /**
- * Implement the Tarjan's SCC algorithm
+ * Implement the Tarjan's scc algorithm
  */
 public final class TarjanAlgorithm implements SccAlgorithm {
     int[] dfsnum; // discovery's number during the DFS, for each vertex (values from 0 to n-1)
@@ -22,7 +22,7 @@ public final class TarjanAlgorithm implements SccAlgorithm {
      * Apply the Tarjan algorithm
      * 
      * @param graph The graph on which to look for the scc
-     * @return A graph with its SCC
+     * @return A graph with its scc
      */
     @Override
     public GraphScc compute(DirectedGraph graph) {
@@ -42,12 +42,11 @@ public final class TarjanAlgorithm implements SccAlgorithm {
             }
         }
 
-        System.out.println("sccCounter" + sccCounter);
         return new GraphScc(graph, sccCounter, scc);
     }
 
     /**
-     * Recursive function for Tarjan's SCC algorithm, process the successors of a vertex given its index
+     * Recursive function for Tarjan's scc algorithm, process the successors of a vertex given its index
      * 
      * @param vertexIndex Index of the vertex
      */
@@ -71,6 +70,7 @@ public final class TarjanAlgorithm implements SccAlgorithm {
 
         // If we have found a new scc
         if (low[vertexIndex] == dfsnum[vertexIndex]) {
+            sccCounter++;
             int vertexToClassify;
             
             // Pop all vertices from the stack until we considered all vertices in the
@@ -79,7 +79,6 @@ public final class TarjanAlgorithm implements SccAlgorithm {
                 vertexToClassify = verticesStack.pop();
                 scc[vertexToClassify] = sccCounter;
             } while (vertexToClassify != vertexIndex);
-            sccCounter++;
         }
     }
 }

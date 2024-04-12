@@ -9,7 +9,7 @@ import gre.lab1.graph.*;
 
 public class Main {
     /**
-     * Takes some files, each one representing a graph, print their SCC with their characteristics.
+     * Takes some files, each one representing a graph, print their scc with their characteristics.
      * 
      * @param args No arg is needed
      * @throws IOException

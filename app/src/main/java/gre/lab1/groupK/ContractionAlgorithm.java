@@ -10,16 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Algorithm that contracts a graph using its SCC
+ * Algorithm that contracts a graph using its scc
  */
 public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation> {
 
     private SccAlgorithm sccAlgo;
 
     /**
-     * Create a ContractionAlgorithm with a specified SCC algorithm
+     * Create a ContractionAlgorithm with a specified scc algorithm
      * 
-     * @param sccAlgo The algorithm to find the SCC used to contract the graph
+     * @param sccAlgo The algorithm to find the scc used to contract the graph
      */
     public ContractionAlgorithm(SccAlgorithm sccAlgo) {
         this.sccAlgo = sccAlgo;
@@ -40,7 +40,7 @@ public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation>
 
         boolean[][] condSCCAdjMatrix = new boolean[graphScc.count()][graphScc.count()]; // adjacence matrix of condensation graph
 
-        // Allocate the final ajdacence list of condensation graph
+        // Allocate the final mapping from scc to original vertices
         List<List<Integer>> mapping = new ArrayList<>(graphScc.count());
         for (int i = 0; i < graphScc.count(); i++) {
             mapping.add(new ArrayList<>());
@@ -51,19 +51,19 @@ public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation>
         for (int originalVertex = 0; originalVertex < scc.length; originalVertex++) {
             for (int successor : graph.getSuccessorList(originalVertex)) {
 
-                // If the 2 vertices are on different scc and there is an existing
+                // If the 2 vertices are on different scc and there is not an existing
                 // connection between the 2 scc
                 if (scc[originalVertex] != scc[successor]
-                        && condSCCAdjMatrix[scc[originalVertex]][scc[successor]] == false) {
+                        && condSCCAdjMatrix[scc[originalVertex]-1][scc[successor]-1] == false) {
 
                     // We add a new edge in condensationGraph and take note of new edge in condSCCAdjMatrix
-                    condensationGraph.addEdge(scc[originalVertex], scc[successor]);
-                    condSCCAdjMatrix[scc[originalVertex]][scc[successor]] = true;
+                    condensationGraph.addEdge(scc[originalVertex]-1, scc[successor]-1);
+                    condSCCAdjMatrix[scc[originalVertex]-1][scc[successor]-1] = true;
                 }
             }
 
             // Add the current vertex in the list of vertices of the associated scc
-            mapping.get(scc[originalVertex]).add(originalVertex);
+            mapping.get(scc[originalVertex]-1).add(originalVertex-1);
         }
 
         return new GraphCondensation(graph, condensationGraph, mapping);
