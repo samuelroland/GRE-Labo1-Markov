@@ -6,10 +6,10 @@ import gre.lab1.graph.SccAlgorithm;
 import java.util.Stack;
 
 /**
- * Implement the Tarjan's scc algorithm
+ * Implement the Tarjan's scc algorithm, in a complexity of O(M+N) (N as number of vertices, M as the number of edges)
  */
 public final class TarjanAlgorithm implements SccAlgorithm {
-    int[] dfsnum; // discovery's number during the DFS, for each vertex (values from 0 to n-1)
+    int[] dfsNum; // discovery's number during the DFS, for each vertex (values from 0 to n-1)
     private int dfsCounter; // used to count already found vertices (from 0 to n-1), used in dfsnum
     private int sccCounter; // counter for scc numbering
     private Stack<Integer> verticesStack; // stack to store visited but unclassified vertices
@@ -28,7 +28,7 @@ public final class TarjanAlgorithm implements SccAlgorithm {
     public GraphScc compute(DirectedGraph graph) {
         this.graph = graph;
         VERTICES_NB = graph.getNVertices();
-        dfsnum = new int[VERTICES_NB];
+        dfsNum = new int[VERTICES_NB];
         scc = new int[VERTICES_NB];
         // Fill array with -1
         for (int i = 0; i < VERTICES_NB; i++) {
@@ -56,14 +56,14 @@ public final class TarjanAlgorithm implements SccAlgorithm {
      */
     private void scc(int vertexIndex) {
         dfsCounter++;
-        dfsnum[vertexIndex] = dfsCounter; // save discovery number
+        dfsNum[vertexIndex] = dfsCounter; // save discovery number
         low[vertexIndex] = dfsCounter;
         verticesStack.push(vertexIndex);
 
         for (int successor : graph.getSuccessorList(vertexIndex)) {
 
             // If successor has not been visited, manage it first
-            if (dfsnum[successor] == 0)
+            if (dfsNum[successor] == 0)
                 scc(successor);
 
             // If the scc has not been defined
@@ -73,7 +73,7 @@ public final class TarjanAlgorithm implements SccAlgorithm {
         }
 
         // If we have found a new scc
-        if (low[vertexIndex] == dfsnum[vertexIndex]) {
+        if (low[vertexIndex] == dfsNum[vertexIndex]) {
             int vertexToClassify;
 
             // Pop all vertices from the stack until we considered all vertices in the

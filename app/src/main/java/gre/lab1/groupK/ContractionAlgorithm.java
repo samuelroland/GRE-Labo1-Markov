@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Algorithm that contracts a graph using its scc
+ * Algorithm that contracts a graph using its SCC, in a complexity of O(M+N) (M and N as in original graph)
  */
 public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation> {
 
