@@ -1,3 +1,6 @@
+/*
+ * Authors: Samuel Roland, Julien Mühlemann, Simon Menicot
+ */
 package gre.lab1.groupK;
 
 import gre.lab1.graph.DirectedGraph;
