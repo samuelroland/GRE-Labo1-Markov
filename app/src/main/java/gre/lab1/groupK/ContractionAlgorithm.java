@@ -36,9 +36,11 @@ public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation>
         GraphScc graphScc = sccAlgo.compute(graph);
         int[] scc = graphScc.components(); // array of scc numbers for each vertex
 
+        // Create an empty graph as the final condensation graph
         DirectedGraph condensationGraph = new DirectedGraph(graphScc.count());
 
-        boolean[][] condSCCAdjMatrix = new boolean[graphScc.count()][graphScc.count()]; // adjacence matrix of condensation graph
+        // Adjacence matrix of condensation graph
+        boolean[][] condSCCAdjMatrix = new boolean[graphScc.count()][graphScc.count()];
 
         // Allocate the final mapping from scc to original vertices
         List<List<Integer>> mapping = new ArrayList<>(graphScc.count());
@@ -54,16 +56,16 @@ public class ContractionAlgorithm implements GenericAlgorithm<GraphCondensation>
                 // If the 2 vertices are on different scc and there is not an existing
                 // connection between the 2 scc
                 if (scc[originalVertex] != scc[successor]
-                        && condSCCAdjMatrix[scc[originalVertex]-1][scc[successor]-1] == false) {
+                        && condSCCAdjMatrix[scc[originalVertex]][scc[successor]] == false) {
 
                     // We add a new edge in condensationGraph and take note of new edge in condSCCAdjMatrix
-                    condensationGraph.addEdge(scc[originalVertex]-1, scc[successor]-1);
-                    condSCCAdjMatrix[scc[originalVertex]-1][scc[successor]-1] = true;
+                    condensationGraph.addEdge(scc[originalVertex], scc[successor]);
+                    condSCCAdjMatrix[scc[originalVertex]][scc[successor]] = true;
                 }
             }
 
             // Add the current vertex in the list of vertices of the associated scc
-            mapping.get(scc[originalVertex]-1).add(originalVertex-1);
+            mapping.get(scc[originalVertex]).add(originalVertex);
         }
 
         return new GraphCondensation(graph, condensationGraph, mapping);
