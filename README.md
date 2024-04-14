@@ -53,8 +53,6 @@ graph TB
 ```
 
 ## Résultats
-Note: sur Tarjan uniquement
-
 ```
 Labo 1 - GRE
 
