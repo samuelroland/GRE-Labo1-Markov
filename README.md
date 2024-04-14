@@ -56,19 +56,48 @@ graph TB
 Note: sur Tarjan uniquement
 
 ```
+Labo 1 - GRE
 
-Calculating the components of the graph in data/chaine1.txt:
-Graph: 15 edges.
-successorLists: [[4, 6], [0, 3, 4, 5, 6], [3], [2, 3], [0, 4], [1, 2], [6]]
-Tarjan: With 4 scc.
-Details: [2, 4, 3, 3, 2, 4, 1]
+>> Calculating the SCC of the graph in data/chaine1.txt:
+
+Strongly Connected Component: C0
+Statut: persistant
+Included vertices: [6]
+
+Strongly Connected Component: C1
+Statut: transitive
+Included vertices: [0, 4]
+Successors list: [0]
+
+Strongly Connected Component: C2
+Statut: persistant
+Included vertices: [2, 3]
+
+Strongly Connected Component: C3
+Statut: transitive
+Included vertices: [1, 5]
+Successors list: [1, 2, 0]
+mapping: [[6], [0, 4], [2, 3], [1, 5]]
 
 
-Calculating the components of the graph in data/chaine2.txt:
-Graph: 25 edges.
-successorLists: [[2], [6, 7, 9], [0, 10], [10, 2, 5], [10, 3], [4, 6, 1], [6, 1], [7], [2, 7, 1], [0, 2,
-8], [0, 10]]
-Tarjan: With 4 scc.
-Details: [1, 3, 1, 4, 4, 4, 3, 2, 3, 3, 1]
+>> Calculating the SCC of the graph in data/chaine2.txt:
 
+Strongly Connected Component: C0
+Statut: persistant
+Included vertices: [0, 2, 10]
+
+Strongly Connected Component: C1
+Statut: persistant
+Included vertices: [7]
+
+Strongly Connected Component: C2
+Statut: transitive
+Included vertices: [1, 6, 8, 9]
+Successors list: [1, 0]
+
+Strongly Connected Component: C3
+Statut: transitive
+Included vertices: [3, 4, 5]
+Successors list: [0, 2]
+mapping: [[0, 2, 10], [7], [1, 6, 8, 9], [3, 4, 5]]
 ```
